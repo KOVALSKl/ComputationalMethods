@@ -1,10 +1,17 @@
 .btn {
+    font-family: Montserrat;
     background-color: transparent;
-    padding: 7px 20px;
-    border-radius: 20px;
+    padding: 13px 25px;
+    border-radius: 23px;
     border: 1px solid rgba(0, 117, 183, 0.9);
     color:rgba(0, 117, 183, 1);
     font-size: 16px;
     text-transform: uppercase;
     box-shadow: 1px 5px 10px rgba(0, 0, 0, 0.1);
+    transition-duration: 330ms;
+}
+
+.btn:hover {
+    color: #fff;
+    background-color: rgba(0, 117, 183, 1);
 }

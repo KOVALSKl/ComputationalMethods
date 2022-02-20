@@ -1,9 +1,20 @@
-.cell input {
+.cell{
+    text-align: center;
     margin: 2px;
-    width: 40px;
-    height: 22px;
+    width: 60px;
+    height: 30px;
     padding: 2px;
     border-radius: 5px;
     border: 1px solid rgba(0, 117, 183, 0.9);
     box-shadow: 2px 10px 15px rgba(0, 0, 0, 0.09);
-  }
+    transition-duration: 200ms;
+    color:rgba(0, 0, 0, 0.75);
+    font-family: Montserrat;
+    font-size: 18px;
+}
+
+.cell:focus {
+  outline: none;
+  border-color: rgba(94, 184, 236, 0.8);
+  box-shadow: 0px 5px 10px rgba(94, 184, 236, 0.45);
+}

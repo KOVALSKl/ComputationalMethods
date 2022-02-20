@@ -1,0 +1,25 @@
+.ansForm {
+    display: flex;
+    flex-direction: column;
+    width:60%;
+    justify-content: center;
+    align-items: center;
+    font-family: Montserrat;
+    font-size: 20px;
+    text-align: center;
+}
+
+.ansForm div {
+    margin-bottom: 15px;
+}
+
+.methodTtl {
+    font-size: 22px;
+    margin-bottom: 20px;
+    color: rgba(0, 117, 183, 1);
+}
+
+.time {
+    font-size: 18px;
+    color: rgba(0, 0, 0, 0.4);
+}

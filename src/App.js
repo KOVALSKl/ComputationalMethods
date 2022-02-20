@@ -1,26 +1,17 @@
-import React, { useState } from 'react';
-import cl from './App.css';
+import React, { useEffect, useState } from 'react';
+import './App.css';
 import { v4 as uuidv4 } from "uuid";
-import MatrixGrid from './components/MatrixGrid';
 import SolveForm from './components/SolveForm';
+import AnsForm from './components/AnsForm';
 
 function App() {
 
-  const [cells, setCells] = useState([
-    {id: uuidv4()},
-    {id: uuidv4()},
-    {id: uuidv4()},
-    {id: uuidv4()},
-    {id: uuidv4()},
-    {id: uuidv4()},
-    {id: uuidv4()},
-    {id: uuidv4()},
-    {id: uuidv4()},
-  ]);
-
+  const [answerCol, setAnswerCol] = useState([]);
+  
   return (
     <div className="App">
-      <SolveForm cells={cells}/>
+      <SolveForm setChanges={setAnswerCol} />
+      <AnsForm ansCol={answerCol} />
     </div>
   );
 }
