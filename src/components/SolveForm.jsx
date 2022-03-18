@@ -1,10 +1,11 @@
-import react, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid"
 import MatrixGrid from "./MatrixGrid";
 import { housholder } from "../methods/Householder";
 import { gramSchmidt } from "../methods/GramSchmidt";
 import cl from "./styles/SolveForm.module.css"
 import CustomButton from "./UI/buttons/CustomButton";
+import { useMediaQuery } from 'react-responsive';
 
 function SolveForm({ setChanges, className }) {
     const [matrix, setMatrix] = useState([]);
@@ -12,6 +13,7 @@ function SolveForm({ setChanges, className }) {
     const [freeMembers, setFreeMembers] = useState([]);
     const [systemSize, setSystemSize] = useState(2);
     const [method, setMethod] = useState(0);
+    const isMobile = useMediaQuery({ query: '(max-width: 1224px)' })
 
     function updateMatrix() {
         let arr = [...matrix];
@@ -57,7 +59,7 @@ function SolveForm({ setChanges, className }) {
             ansCol.push([Number(freeMembers[i / systemSize].value)]);
         }
         var time = performance.now();
-        let met = (method == 0)
+        let met = (method === 0)
             ? housholder(mat, ansCol)
             : gramSchmidt(mat, ansCol)
         time = performance.now() - time;
@@ -71,7 +73,13 @@ function SolveForm({ setChanges, className }) {
     }, [systemSize])
 
     return (
-        <div className={[cl.slvForm, className].join(" ")}>
+        <div
+            className={[cl.slvForm, className].join(" ")}
+            style={
+                isMobile
+                    ? { borderBottom: "1px solid rgba(0, 117, 183, 0.9)" }
+                    : { borderRight: "1px solid rgba(0, 117, 183, 0.9)" }
+            }>
             <div className={cl.settingsBlock}>
                 <div>
                     <span>method:</span>
@@ -91,14 +99,30 @@ function SolveForm({ setChanges, className }) {
                         <option>3</option>
                         <option>4</option>
                         <option>5</option>
-                        <option>6</option>
+                        <option disabled={isMobile}>6</option>
                     </select>
                 </div>
             </div>
-            <div className={cl.condBlock}>
-                <MatrixGrid cells={matrix} width={matrixWidth} />
+            <div
+                className={cl.condBlock}
+                style={
+                    isMobile
+                        ? { flexDirection: "column" }
+                        : { flexDirection: "row" }
+                }
+
+            >
+                <MatrixGrid
+                    cells={matrix}
+                    width={matrixWidth}
+                    device={isMobile}
+                    rotate={true} />
                 <div className={cl.equalSymb}>=</div>
-                <MatrixGrid cells={freeMembers} className={cl.freeMembGrid} />
+                <MatrixGrid
+                    cells={freeMembers}
+                    className={cl.freeMembGrid}
+                    device={isMobile}
+                    rotate={isMobile} />
             </div>
             <CustomButton value="solve" onClick={sendDataToSolve} />
         </div>

@@ -1,7 +1,9 @@
 .ansForm {
     display: flex;
     flex-direction: column;
-    width:60%;
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
     justify-content: center;
     align-items: center;
     font-family: Montserrat;

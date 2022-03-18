@@ -1,7 +1,7 @@
 import react, { useState } from "react";
 import cl from "./styles/Cell.module.css";
 
-function Cell({id, setChanges, val}) {
+function Cell({id, setChanges, val, device}) {
 
     const [value, setValue] = useState(val);
 
@@ -18,6 +18,11 @@ function Cell({id, setChanges, val}) {
                         changes: e.target.value
                     })
                 }}
+                style={
+                    device
+                    ? {width: "60px", height: "30px"}
+                    : {width: "60px", height: "30px"}
+                }
             />
         </div>
     );
