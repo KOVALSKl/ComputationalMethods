@@ -1,24 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
-import { v4 as uuidv4 } from "uuid";
-import SolveForm from './components/SolveForm';
-import AnsForm from './components/AnsForm';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Route, Routes, Link } from 'react-router-dom';
+import Slaepage from './pages/Slaepage';
+import Homepage from "./pages/Homepage";
+import Notfoundpage from "./pages/Notfoundpage";
+
 
 function App() {
 
-  const [answerCol, setAnswerCol] = useState([]);
-
   return (
     <div className="App">
-      <Row>
-          <Col xs={12} md={5}>
-            <SolveForm setChanges={setAnswerCol} />
-          </Col>
-          <Col xs={12} md={7}>
-            <AnsForm ansCol={answerCol} />
-          </Col>
-        </Row>
+      <Routes>
+        <Route index element={<Homepage />} />
+        <Route path="slae" element={<Slaepage />} />
+        <Route path="*" element={<Notfoundpage />} />
+      </Routes>
     </div>
   );
 }
