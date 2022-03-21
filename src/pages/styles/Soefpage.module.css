@@ -1,0 +1,45 @@
+.wrapper {
+    padding: 20px 0;
+}
+
+.pageTitle {
+    color: rgba(0, 117, 183, 0.95);
+    position: relative;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.pageContent {
+    margin-top: 15px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.pageContent span {
+    margin-right: 5px;
+    font-size: 18px;
+}
+
+.funcSelect select{
+    font-size: 18px;
+}
+
+.methodSettings {
+    display: flex;
+    align-items: center;
+}
+
+.methodSettings > div {
+    margin-right: 25px;
+}
+
+.blockInp input{
+    width: 50px;
+    text-align: center;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 117, 183, 0.9);
+    box-shadow: 2px 10px 15px rgba(0, 0, 0, 0.09);
+}
+
+.buildBtn {
+    padding: 10px 15px;
+    border-radius: 15px;
+}
