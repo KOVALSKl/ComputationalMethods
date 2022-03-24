@@ -1,11 +1,12 @@
 import Chart from 'chart.js/auto';
 import { Line } from "react-chartjs-2";
 
-export default function LineChart({ chartData }) {
+export default function LineChart(props) {
+    console.log(props);
     return (
         <div>
             <Line
-                data={chartData}
+                data={props.chartData}
                 options={{
                     responsive: true,
                     plugins: {

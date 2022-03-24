@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid"
 import MatrixGrid from "./MatrixGrid";
-import { housholder } from "../methods/Householder";
-import { gramSchmidt } from "../methods/GramSchmidt";
+import Householder  from "../methods/slae/Householder";
+import { gramSchmidt } from "../methods/slae/GramSchmidt";
 import cl from "./styles/SolveForm.module.css"
 import CustomButton from "./UI/buttons/CustomButton";
 import { useMediaQuery } from 'react-responsive';
+import Matrix from "../methods/objects/Matrix";
+import Vector from "../methods/objects/Vector";
 
 function SolveForm({ setChanges, className }) {
     const [matrix, setMatrix] = useState([]);
@@ -47,21 +49,23 @@ function SolveForm({ setChanges, className }) {
     }
 
     function sendDataToSolve() {
-        let mat = [];
-        let ansCol = [];
-
-        for (let i = 0; i < matrix.length; i += (systemSize)) {
-            let row = [];
-            for (let j = i; j < (i + systemSize); j++) {
-                row.push(Number(matrix[j].value))
-            }
-            mat.push(row);
-            ansCol.push([Number(freeMembers[i / systemSize].value)]);
+        let data = [];
+        for(let i = 0; i < matrix.length; i++) {
+            data.push(Number(matrix[i].value));
         }
+
+        let ansCol = [];
+        for (let i = 0; i < freeMembers.length; i++) {
+            ansCol.push(Number(freeMembers[i].value));
+        }
+        let mat = new Matrix({
+            data: data,
+            rows: systemSize,
+        });
+        let free = new Vector(ansCol);
         var time = performance.now();
-        let met = (method === 0)
-            ? housholder(mat, ansCol)
-            : gramSchmidt(mat, ansCol)
+        let met =  Householder(mat, free)
+            // : gramSchmidt(mat, ansCol)
         time = performance.now() - time;
         met.time = (time);
         setChanges(met);
