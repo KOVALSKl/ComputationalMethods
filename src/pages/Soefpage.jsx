@@ -1,13 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useState } from "react";
 import { Container } from "react-bootstrap";
-import LineChart from "../components/charts/LineChart";
+import CustomChart from "../components/charts/CustomChart";
 import CustomButton from "../components/UI/buttons/CustomButton";
 import cl from "./styles/Soefpage.module.css";
-import LeastSquareMethod from "../methods/soef/LeastSquareMethod";
 import LocalDataSmoothing from "../methods/soef/LocalDataSmoothing"
-import { useRef } from "react";
-import { createRef } from "react";
 
 function Soefpage() {
 
@@ -19,62 +16,39 @@ function Soefpage() {
     const [labels, setLabels] = useState([]);
     const [data, setData] = useState([]);
     const [lowerBound, setLowerBound] = useState(0);
-    const [upperBound, setUpperBound] = useState(5);
+    const [upperBound, setUpperBound] = useState(6.5);
+    const [smoothingAmount, setSmootingAmount] = useState(1);
 
-    // const [chartOptions, setChartOptinos] = useState({
-    //     labels: labels,
-    //     datasets: [
-    //         {
-    //             label: func,
-    //             fill: false,
-    //             lineTension: 0.4,
-    //             backgroundColor: 'rgba(75,192,192,1)',
-    //             borderColor: "rgba(0, 0, 0, 1)",
-    //             borderWidth: 2,
-    //             data: data
-    //         },
-    //     ],
-    // });
+    const [datasets, setDatasets] = useState([])
 
     function getRandomInt(min, max) {
         return Math.floor(Math.random() * (max - min)) + min;
     }
 
     function getRandomColor() {
-        return "#" + Math.floor(Math.random()*16777215).toString(16);
+        return "#" + Math.floor(Math.random() * 16777215).toString(16);
     }
 
     function createSmoothedChart() {
-        let newDataForChart = LocalDataSmoothing(labels, data, m, k);
-        let smoothedChart = {
-            label: func + "1",
-            fill: false,
-            lineTension: 0.4,
-            backgroundColor: getRandomColor(),
-            borderColor: "rgba(0, 0, 0, 1)",
-            borderWidth: 2,
-            data: newDataForChart
-        }
-        setData(newDataForChart);
-        //console.log(state.datasets);
-    }
-
-    const state = {
-        labels: labels,
-        datasets: [
-            {
-                label: func,
+        let smoothedGraphics = [];
+        let lastData = data;
+        for (let i = 0; i < smoothingAmount; i++) {
+            lastData = LocalDataSmoothing(labels, lastData, m, k);
+            smoothedGraphics.push({
+                label: `smoothed #${i + 1}`,
                 fill: false,
                 lineTension: 0.4,
-                backgroundColor: 'rgba(75,192,192,1)',
-                borderColor: "rgba(0, 0, 0, 1)",
+                backgroundColor: getRandomColor(),
+                borderColor: getRandomColor(),
                 borderWidth: 2,
-                data: data
-            },
-        ],
+                data: lastData
+            });
+
+        }
+        setDatasets([...datasets, ...smoothedGraphics]);
     }
 
-    useEffect(() => {
+    useMemo(() => {
         let x = lowerBound;
         let i = 0;
         let newData = [];
@@ -86,8 +60,8 @@ function Soefpage() {
             i++;
         }
 
-        for(let i = 0; i < rand; i++) {
-            newData[getRandomInt(0, newData.length)] *= (Math.random() * getRandomInt(Math.floor(-rand / 2), Math.floor(rand / 2))); 
+        for (let i = 0; i < rand; i++) {
+            newData[getRandomInt(0, newData.length)] *= (Math.random() * getRandomInt(Math.floor(-rand / 2), Math.floor(rand / 2)));
         }
         setData(newData);
         setLabels(newLabels);
@@ -108,6 +82,19 @@ function Soefpage() {
         }
     }, [func]);
 
+    useEffect(() => {
+
+        setDatasets([{
+            label: func,
+            fill: false,
+            lineTension: 0.4,
+            backgroundColor: 'rgba(0, 117, 183, 0.95)',
+            borderColor: "rgba(0, 0, 0, 1)",
+            borderWidth: 2,
+            data: data
+        },])
+    }, [data])
+
     return (
         <div className={cl.wrapper}>
             <Container>
@@ -115,50 +102,64 @@ function Soefpage() {
                     <h3>Selection of empirical formulas</h3>
                 </div>
                 <div className={cl.pageContent}>
-                    <div className={cl.methodSettings}>
-                        <div className={cl.funcSelect}>
-                            <span>function:</span>
-                            <select onChange={(e) => {
-                                setFunc(e.target.value);
-                            }}>
-                                <option>sin</option>
-                                <option>cos</option>
-                                <option>sqrt</option>
-                            </select>
+                    <div className={cl.settingsBlock}>
+                        <div className={cl.blockTitle}>
+                            <img src={require("../img/gear.png")} />
+                            Settings
                         </div>
-                        <div className={cl.blockInp}>
-                            <span>randomize</span>
-                            <input placeholder={rand} onChange={(e) => {
-                                setRand(Number(e.target.value));
-                            }} />
+                        <div className={cl.methodSettings}>
+                            <div className={cl.funcSelect}>
+                                {/* <span>function:</span> */}
+                                <select onChange={(e) => {
+                                    setFunc(e.target.value);
+                                }}>
+                                    <option>sin</option>
+                                    <option>cos</option>
+                                    <option>sqrt</option>
+                                </select>
+                            </div>
+                            <div className={cl.blockInp}>
+                                <span>randomize</span>
+                                <input placeholder={rand} onChange={(e) => {
+                                    setRand(Number(e.target.value));
+                                }} />
+                            </div>
+                            <div className={cl.blockInp}>
+                                <span>m</span>
+                                <input placeholder={m} onChange={(e) => {
+                                    setM(Number(e.target.value));
+                                }} />
+                            </div>
+                            <div className={cl.blockInp}>
+                                <span>k</span>
+                                <input placeholder={k} onChange={(e) => {
+                                    setK(Number(e.target.value));
+                                }} />
+                            </div>
+                            <div className={cl.blockInp}>
+                                <span>Lower Bound</span>
+                                <input placeholder={lowerBound} onChange={(e) => {
+                                    setLowerBound(Number(e.target.value));
+                                }} />
+                            </div>
+                            <div className={cl.blockInp}>
+                                <span>Upper Bound</span>
+                                <input placeholder={upperBound} onChange={(e) => {
+                                    setUpperBound(Number(e.target.value));
+                                }} />
+                            </div>
+                            <div className={cl.blockInp}>
+                                <span>Smoothing Amount</span>
+                                <input placeholder={smoothingAmount} onChange={(e) => {
+                                    setSmootingAmount(Number(e.target.value));
+                                }} />
+                            </div>
+                            <CustomButton value="Build" className={cl.buildBtn} onClick={() => createSmoothedChart()} disabled={k === 0 || m === 0} />
                         </div>
-                        <div className={cl.blockInp}>
-                            <span>m</span>
-                            <input placeholder={m} onChange={(e) => {
-                                setM(Number(e.target.value));
-                            }} />
-                        </div>
-                        <div className={cl.blockInp}>
-                            <span>k</span>
-                            <input placeholder={k} onChange={(e) => {
-                                setK(Number(e.target.value));
-                            }} />
-                        </div>
-                        <div className={cl.blockInp}>
-                            <span>Lower Bound</span>
-                            <input placeholder={lowerBound} onChange={(e) => {
-                                setLowerBound(Number(e.target.value));
-                            }} />
-                        </div>
-                        <div className={cl.blockInp}>
-                            <span>Upper Bound</span>
-                            <input placeholder={upperBound} onChange={(e) => {
-                                setUpperBound(Number(e.target.value));
-                            }} />
-                        </div>
-                        <CustomButton value="Build" className={cl.buildBtn} onClick={() => createSmoothedChart()} disabled={k === 0 || m === 0}/>
                     </div>
-                    <LineChart chartData={state} />
+                    <div className={cl.chartBlock}>
+                        <CustomChart labels={labels} datasets={datasets} />
+                    </div>
                 </div>
             </Container>
         </div>
