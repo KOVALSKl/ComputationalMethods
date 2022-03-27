@@ -4,8 +4,6 @@ import Vector from "../objects/Vector";
 export default function Householder(matrix, freeMembers) {
     let A = matrix;
     let B = freeMembers;
-    console.log(A);
-    console.log(B);
     let data = [];
 
     for (let i = 0; i < A.rows; i++) {

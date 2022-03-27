@@ -18,6 +18,7 @@ function Soefpage() {
     const [lowerBound, setLowerBound] = useState(0);
     const [upperBound, setUpperBound] = useState(6.5);
     const [smoothingAmount, setSmootingAmount] = useState(1);
+    const [step, setStep] = useState(0.1);
 
     const [datasets, setDatasets] = useState([])
 
@@ -34,10 +35,11 @@ function Soefpage() {
         let lastData = data;
         for (let i = 0; i < smoothingAmount; i++) {
             lastData = LocalDataSmoothing(labels, lastData, m, k);
+            console.log(lastData);
             smoothedGraphics.push({
                 label: `smoothed #${i + 1}`,
                 fill: false,
-                lineTension: 0.4,
+                //lineTension: 0.4,
                 backgroundColor: getRandomColor(),
                 borderColor: getRandomColor(),
                 borderWidth: 2,
@@ -56,7 +58,7 @@ function Soefpage() {
         while (x < upperBound) {
             newData[i] = currentFunc(x);
             newLabels[i] = x.toFixed(3);
-            x += 0.1;
+            x += step;
             i++;
         }
 
@@ -65,7 +67,7 @@ function Soefpage() {
         }
         setData(newData);
         setLabels(newLabels);
-    }, [currentFunc, lowerBound, upperBound, rand]);
+    }, [currentFunc, lowerBound, upperBound, rand, step]);
 
 
     useEffect(() => {
@@ -87,7 +89,7 @@ function Soefpage() {
         setDatasets([{
             label: func,
             fill: false,
-            lineTension: 0.4,
+            //lineTension: 0.4,
             backgroundColor: 'rgba(0, 117, 183, 0.95)',
             borderColor: "rgba(0, 0, 0, 1)",
             borderWidth: 2,
@@ -119,7 +121,7 @@ function Soefpage() {
                                 </select>
                             </div>
                             <div className={cl.blockInp}>
-                                <span>randomize</span>
+                                <span>Randomize</span>
                                 <input placeholder={rand} onChange={(e) => {
                                     setRand(Number(e.target.value));
                                 }} />
@@ -152,6 +154,12 @@ function Soefpage() {
                                 <span>Smoothing Amount</span>
                                 <input placeholder={smoothingAmount} onChange={(e) => {
                                     setSmootingAmount(Number(e.target.value));
+                                }} />
+                            </div>
+                            <div className={cl.blockInp}>
+                                <span>Step</span>
+                                <input placeholder={step} onChange={(e) => {
+                                    if (Boolean(Number(e.target.value))) setStep(Number(e.target.value));
                                 }} />
                             </div>
                             <CustomButton value="Build" className={cl.buildBtn} onClick={() => createSmoothedChart()} disabled={k === 0 || m === 0} />
