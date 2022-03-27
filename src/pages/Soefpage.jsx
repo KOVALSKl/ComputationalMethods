@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from "react";
 import { useState } from "react";
-import { Container } from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
 import CustomChart from "../components/charts/CustomChart";
 import CustomButton from "../components/UI/buttons/CustomButton";
 import cl from "./styles/Soefpage.module.css";
@@ -18,9 +18,11 @@ function Soefpage() {
     const [lowerBound, setLowerBound] = useState(0);
     const [upperBound, setUpperBound] = useState(6.5);
     const [smoothingAmount, setSmootingAmount] = useState(1);
+    // const [lastData, setLastData] = useState(data);
     const [step, setStep] = useState(0.1);
 
-    const [datasets, setDatasets] = useState([])
+    //const [datasets, setDatasets] = useState([])
+    const [series, setSeries] = useState([]);
 
     function getRandomInt(min, max) {
         return Math.floor(Math.random() * (max - min)) + min;
@@ -32,22 +34,17 @@ function Soefpage() {
 
     function createSmoothedChart() {
         let smoothedGraphics = [];
-        let lastData = data;
+        let lastData = series[series.length - 1].data;
         for (let i = 0; i < smoothingAmount; i++) {
             lastData = LocalDataSmoothing(labels, lastData, m, k);
             console.log(lastData);
             smoothedGraphics.push({
-                label: `smoothed #${i + 1}`,
-                fill: false,
-                //lineTension: 0.4,
-                backgroundColor: getRandomColor(),
-                borderColor: getRandomColor(),
-                borderWidth: 2,
+                name: `smoothed #${series.length + smoothedGraphics.length}`,
                 data: lastData
             });
 
         }
-        setDatasets([...datasets, ...smoothedGraphics]);
+        setSeries([...series, ...smoothedGraphics]);
     }
 
     useMemo(() => {
@@ -63,7 +60,7 @@ function Soefpage() {
         }
 
         for (let i = 0; i < rand; i++) {
-            newData[getRandomInt(0, newData.length)] *= (Math.random() * getRandomInt(Math.floor(-rand / 2), Math.floor(rand / 2)));
+            newData[getRandomInt(0, newData.length)] *= (Math.random() * (1 / 100) * getRandomInt(Math.floor(-rand / 2), Math.floor(rand / 2)));
         }
         setData(newData);
         setLabels(newLabels);
@@ -85,16 +82,10 @@ function Soefpage() {
     }, [func]);
 
     useEffect(() => {
-
-        setDatasets([{
-            label: func,
-            fill: false,
-            //lineTension: 0.4,
-            backgroundColor: 'rgba(0, 117, 183, 0.95)',
-            borderColor: "rgba(0, 0, 0, 1)",
-            borderWidth: 2,
+        setSeries([{
+            name: func,
             data: data
-        },])
+        }])
     }, [data])
 
     return (
@@ -109,17 +100,8 @@ function Soefpage() {
                             <img src={require("../img/gear.png")} />
                             Settings
                         </div>
+
                         <div className={cl.methodSettings}>
-                            <div className={cl.funcSelect}>
-                                {/* <span>function:</span> */}
-                                <select onChange={(e) => {
-                                    setFunc(e.target.value);
-                                }}>
-                                    <option>sin</option>
-                                    <option>cos</option>
-                                    <option>sqrt</option>
-                                </select>
-                            </div>
                             <div className={cl.blockInp}>
                                 <span>Randomize</span>
                                 <input placeholder={rand} onChange={(e) => {
@@ -162,11 +144,11 @@ function Soefpage() {
                                     if (Boolean(Number(e.target.value))) setStep(Number(e.target.value));
                                 }} />
                             </div>
-                            <CustomButton value="Build" className={cl.buildBtn} onClick={() => createSmoothedChart()} disabled={k === 0 || m === 0} />
+                            <CustomButton value="Build" className={cl.buildBtn} onClick={() => createSmoothedChart()} disabled={m === 0} />
                         </div>
                     </div>
                     <div className={cl.chartBlock}>
-                        <CustomChart labels={labels} datasets={datasets} />
+                        <CustomChart labels={labels} series={series} />
                     </div>
                 </div>
             </Container>

@@ -1,29 +1,25 @@
-import { useRef, useState } from "react"
-import Chart from 'chart.js/auto';
-import { Line } from "react-chartjs-2";
+import Highcharts from 'highcharts'
+import HighchartsReact from 'highcharts-react-official'
 
-export default function CustomChart({ labels, datasets}) {
+export default function CustomChart({ labels, series}) {
 
-    const line = (
-        <Line
-            itemType="line"
-            data={{
-                labels: labels,
-                datasets: datasets
-            }
-            }
-            options={{
-                responsive: true,
-                plugins: {
-                    legend: {
-                        display: false
-                    },
-                    title: {
-                        display: false,
-                    }
-                }
-            }}
-        />
+    const options = {
+        chart: {
+            type: 'line'
+        },
+        xAxis: {
+            categories: labels
+        },
+        title: {
+            text: "Local Data Smoothing"
+        },
+        series: series,
+    }
+
+    return (
+        <HighchartsReact
+        highcharts={Highcharts}
+        options={options}
+    />
     );
-    return line;
 }

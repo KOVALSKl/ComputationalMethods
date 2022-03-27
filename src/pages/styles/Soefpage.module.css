@@ -65,7 +65,8 @@
 .methodSettings {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
 }
 
 .blockInp {
@@ -103,4 +104,8 @@
 
 .chartBlock {
     margin-top: 20px;
+}
+
+.chartBlock > div {
+    height: 800px!important;
 }
