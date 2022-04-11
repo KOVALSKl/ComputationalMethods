@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import './App.css';
-import { Route, Routes, Link } from 'react-router-dom';
-import Slaepage from './pages/Slaepage';
+import React, { useEffect, useState } from "react";
+import "./App.css";
+import { Route, Routes, Link } from "react-router-dom";
+import Slaepage from "./pages/Slaepage";
 import Homepage from "./pages/Homepage";
 import Notfoundpage from "./pages/Notfoundpage";
-import Soefpage from './pages/Soefpage';
-
+import Soefpage from "./pages/Soefpage";
 
 function App() {
-
   return (
     <div className="App">
       <Routes>

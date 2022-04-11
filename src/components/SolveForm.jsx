@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid"
 import MatrixGrid from "./MatrixGrid";
 import Householder  from "../methods/slae/Householder";
-import { gramSchmidt } from "../methods/slae/GramSchmidt";
 import cl from "./styles/SolveForm.module.css"
 import CustomButton from "./UI/buttons/CustomButton";
 import { useMediaQuery } from 'react-responsive';

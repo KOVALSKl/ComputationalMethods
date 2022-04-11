@@ -1,0 +1,35 @@
+.fade-enter {
+    opacity: 0;
+}
+
+.fade-enter-active {
+    opacity: 1;
+    transition: opacity 250ms;
+}
+
+.fade-exit {
+    opacity: 1;
+}
+
+.fade-exit-active {
+    opacity: 0;
+    transition: opacity 250ms;
+}
+
+.slide-enter {
+    margin-top: 30px;
+}
+
+.slide-enter-active {
+    margin-top: 90px;
+    transition: margin 250ms;
+}
+
+.slide-exit {
+    margin-top: 90px;
+}
+
+.slide-exit-active {
+    margin-top: 30px;
+    transition: margin 250ms;
+}

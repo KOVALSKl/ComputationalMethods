@@ -5,7 +5,7 @@
 .pageTitle {
     color: rgba(0, 117, 183, 0.95);
     position: relative;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Montserrat;
 }
 
 .pageContent {
@@ -18,7 +18,11 @@
     font-size: 18px;
 }
 
-.funcSelect select{
+.funcSelect {
+    position: relative;
+}
+
+.funcSelect select {
     font-size: 18px;
 }
 
@@ -31,34 +35,7 @@
     margin-top: 40px;
 }
 
-.blockTitle {
-    display: flex;
-    align-items: center;
-    position: absolute;
-    top: -25px;
-    left: -1px;
-
-    font-size: 16px;
-    font-family: 'Courier New', Courier, monospace;
-    text-transform: lowercase;
-
-    padding: 0 4px;
-    border: 1px solid rgba(0, 117, 183, 0.4);
-    border-bottom: none;
-    border-radius: 5px 5px 0px 0px;
-}
-
-.blockTitle img{
-    margin-right: 5px;
-    width: 17px;
-    transition: 4s ease;
-}
-
-.blockTitle:hover img {
-    transform: rotate(360deg);
-}
-
-.methodSettings > div {
+.methodSettings>div {
     margin-right: 25px;
 }
 
@@ -67,6 +44,7 @@
     align-items: center;
     justify-content: space-evenly;
     flex-wrap: wrap;
+    position: relative;
 }
 
 .blockInp {
@@ -75,6 +53,7 @@
     border-radius: 5px;
     border: 1px solid rgba(0, 117, 183, 0.9);
     transition: 500ms;
+    position: relative;
 }
 
 .blockInp:hover {
@@ -83,16 +62,16 @@
 
 .blockInp span {
     padding-left: 7px;
-    color:  rgba(46, 48, 49, 0.9);
+    color: rgba(46, 48, 49, 0.9);
     font-size: 16px;
 }
 
-.blockInp input{
+.blockInp input {
     height: 30px;
     width: 50px;
     text-align: center;
     border: 1px solid transparent;
-    border-left: 1px solid rgba(185, 186, 189, 0.9);
+    border-left: 1px solid rgba(185, 186, 189, 0.9) !important;
     border-radius: 0 5px 5px 0;
     color: rgba(0, 117, 183, 0.9);
 }
@@ -102,10 +81,88 @@
     border-radius: 15px;
 }
 
-.chartBlock {
-    margin-top: 20px;
+.droparea {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    border: 3px dashed black;
+    z-index: 10000;
 }
 
-.chartBlock > div {
-    height: 800px!important;
+.chartBlock {
+    position: relative;
+    margin-top: 30px;
+}
+
+/* .chartBlock .chartContainer {
+} */
+
+.tableContainer {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    left: 80px;
+    top: 50px;
+    background-color: rgba(255, 255, 255, 1);
+    box-shadow: 2px 5px 15px rgba(0, 0, 0, 0.12);
+    border-radius: 5px;
+    padding: 7px 0;
+    padding-right: 15px;
+    z-index: 1000;
+}
+
+.tableBlock {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    padding-left: 20px;
+}
+
+.btnBlock {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.btnBlock .addBtn {
+    padding: 0;
+    border: none;
+    box-shadow: 2px 10px 15px rgba(0, 0, 0, 0.12);
+    transition: 500ms;
+    margin-left: 5px;
+    margin-top: 2px;
+    opacity: 0.85;
+}
+
+.btnBlock .addBtn:hover {
+    opacity: 0.6;
+}
+
+.btnBlock .addBtn img {
+    width: 30px;
+}
+
+.tableBlock .tableRow {
+    display: flex;
+    align-items: center;
+}
+
+.arrowBlock {
+    position: absolute;
+    right: -21px;
+}
+
+.arrowBlock img {
+    width: 20px;
+    transition: 300ms;
+}
+
+.arrowBlock img:active {
+    opacity: 0.2;
 }
